@@ -8,8 +8,8 @@ double TestStand::runOverHeatTest(Engine &engine){
         if (engine.getTime()>1000.0){
             return 0.0;
         }
-        return engine.getTime();
     }
+    return engine.getTime();
 }
  std::pair<double ,double> TestStand::runMaxPowerTest(Engine &engine){
     engine.reset();

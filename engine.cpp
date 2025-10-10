@@ -30,7 +30,7 @@ void Engine::simulationStep() {
     
     // Обновление скорости
     velocity_ += acceleration * Config::dt;
-    velocity_ = std::max(0.0, velocity_); // Скорость не может быть отрицательной
+    velocity_ = std::max(0.0, velocity_); 
     
     // Расчет скорости нагрева
     double heating_rate = torque * H_M_ + velocity_ * velocity_ * H_M_;

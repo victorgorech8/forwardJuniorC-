@@ -3,6 +3,8 @@
 #include "Engine.h"
 #include "TestStand.h"
 #include "Config.h"
+#include <locale>
+#include <windows.h>
 using namespace std;
 
 void printConfiguration() {
@@ -24,21 +26,23 @@ void printSelect() {
     cout << "Выберите один из пунктов:"<< endl;
     cout << "1- Тест время перегрева двигателя" << endl;
     cout << "2- Тест на максимальную скорость двигателя: " <<  endl;
-    cout << "3- Выход из программы" << endl;
+    cout << "3- Поменять температуру окружающей среды" << endl;
+    cout << "4- Выход из программы" << endl;
 }
 int main(){
-    setlocale(LC_ALL, "Russian");
+    SetConsoleOutputCP(CP_UTF8);  
+    setlocale(LC_ALL, "ru_RU.UTF-8");
     double ambient_temperature;
     cout << "Введите температуру окружающей среды (°C): ";
     cin >> ambient_temperature;
     
-    // Создание двигателя
+    
     Engine engine(Config::I, Config::T_OVERHEAT, Config::H_M, 
                   Config::H_V, Config::C, ambient_temperature);
     int choice=0;
     printSelect();
     cin>>choice;
-    while (choice!=3){
+    while (choice!=4){
         if (choice==1){
              cout << "Двигатель перегрелся через: " << TestStand::runOverHeatTest(engine) << " секунд" << endl;
         }
@@ -46,6 +50,13 @@ int main(){
             auto result=TestStand::runMaxPowerTest(engine);
              cout << "Максимальная мощность: " << result.first << " кВт" << endl;
             cout << "При скорости вращения: " << result.second << " радиан/сек" << endl;
+        }
+        if (choice == 3) {
+            cout << "Введите температуру окружающей среды (°C): ";
+            cin >> ambient_temperature;
+
+           engine= Engine(Config::I, Config::T_OVERHEAT, Config::H_M,
+                Config::H_V, Config::C, ambient_temperature);
         }
         printSelect();
         cin>>choice;
